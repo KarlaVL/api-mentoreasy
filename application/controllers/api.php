@@ -79,12 +79,12 @@ class Api extends REST_Controller {
         }
     }
 
-    public function vermentores_get($carrera)
+    public function vermentores_get($carrera, $asignatura)
     {
         header("Access-Control-Allow-Origin: *");
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
         //urldecode($carrera);
-        $vermentores = $this->Api_model->vermentor(urldecode($carrera));
+        $vermentores = $this->Api_model->vermentor(urldecode($carrera), urldecode($asignatura));
         
         if(!is_null($vermentores)){
             $this->response($vermentores, 200);
@@ -100,7 +100,7 @@ class Api extends REST_Controller {
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
         
         $input = $this->input->post();
-        $this->db->insert('asesorias_mts', $input);
+        $this->db->insert('solicitudes_mts', $input);
      
         $this->response(['Mentor asignado'], REST_Controller::HTTP_OK);
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-01-2021 a las 23:21:05
+-- Tiempo de generación: 23-01-2021 a las 00:07:38
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.11
 
@@ -30,7 +30,6 @@ SET time_zone = "+00:00";
 CREATE TABLE `asesorias_mts` (
   `asesorias_id` bigint(20) NOT NULL,
   `nu_solicitud` bigint(20) NOT NULL,
-  `nu_mentor` bigint(20) NOT NULL,
   `horario` timestamp NULL DEFAULT current_timestamp(),
   `status_asesoria` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -39,15 +38,10 @@ CREATE TABLE `asesorias_mts` (
 -- Volcado de datos para la tabla `asesorias_mts`
 --
 
-INSERT INTO `asesorias_mts` (`asesorias_id`, `nu_solicitud`, `nu_mentor`, `horario`, `status_asesoria`) VALUES
-(1, 2, 9, '2021-01-14 16:32:24', 0),
-(4, 2, 8, '2021-01-14 16:40:03', 0),
-(5, 3, 9, '2021-01-14 16:40:12', 0),
-(6, 2, 8, '2021-01-14 17:15:37', 0),
-(7, 2, 9, '2021-01-14 17:39:03', 0),
-(8, 5, 8, '2021-01-14 17:42:22', 0),
-(9, 2, 9, '2021-01-14 18:18:37', NULL),
-(10, 2, 8, '2021-01-14 19:45:04', NULL);
+INSERT INTO `asesorias_mts` (`asesorias_id`, `nu_solicitud`, `horario`, `status_asesoria`) VALUES
+(11, 13, '2021-01-22 22:13:37', NULL),
+(12, 12, '2021-01-22 22:13:41', NULL),
+(13, 13, '2021-01-22 22:24:57', NULL);
 
 -- --------------------------------------------------------
 
@@ -67,8 +61,8 @@ CREATE TABLE `materias_user_mts` (
 --
 
 INSERT INTO `materias_user_mts` (`id_materia`, `asignatura`, `id_mentor`, `promedio_mentor`) VALUES
-(1, 'Bases culinarias', 8, '94.07'),
-(2, 'Inteligencia artificail', 9, '85');
+(1, 'Bases culinarias', 11, '94.07'),
+(2, 'Inteligencia artificial', 9, '85');
 
 -- --------------------------------------------------------
 
@@ -98,19 +92,17 @@ CREATE TABLE `solicitudes_mts` (
   `tema` varchar(150) NOT NULL,
   `promedio_inicial` varchar(50) NOT NULL,
   `nu_mentorado` bigint(20) NOT NULL,
-  `status_envio` varchar(10) DEFAULT NULL
+  `status_envio` varchar(10) DEFAULT NULL,
+  `nu_mentor` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `solicitudes_mts`
 --
 
-INSERT INTO `solicitudes_mts` (`id_solicitudes`, `situacion`, `tipo`, `asignatura`, `tema`, `promedio_inicial`, `nu_mentorado`, `status_envio`) VALUES
-(2, 'Problema', 'academica', 'Programación', 'x', '71.09', 7, '0'),
-(3, 'po o', 'academica', 'po o', 'po o', '74.00', 7, '0'),
-(4, 'ertyuio', 'academica', 'ghjk', 'ghjkl', '44', 7, '0'),
-(5, 'No puede jer', 'academica', 'Ingenieria en Sistemas Computacionale', 'metodologia ', '75.00', 7, '0'),
-(9, 'Tengo dificultades en ingeniería de software', 'academica', 'Ingeniería de software', 'Metodología SCRUM', '75.01', 7, NULL);
+INSERT INTO `solicitudes_mts` (`id_solicitudes`, `situacion`, `tipo`, `asignatura`, `tema`, `promedio_inicial`, `nu_mentorado`, `status_envio`, `nu_mentor`) VALUES
+(12, 'problema', 'academica', 'Bases culinarias', 'hacer merengue', '70.00', 7, '0', NULL),
+(13, 'problema', 'academica', 'Inteligencia artificial', 'visión artificial', '70.00', 7, '0', NULL);
 
 -- --------------------------------------------------------
 
@@ -147,7 +139,8 @@ INSERT INTO `usuarios_mts` (`id_user`, `nombre`, `username`, `password`, `tipo_u
 (7, 'Mario perez', 'mario', '3333', 'Mentorado', 'mario@hotmail.com', '982136521', '160204889', 'Ingenieria en Sistemas Computacionales', '6', 'GMA-6', '90'),
 (8, 'Miguel García', 'miguel', '1111', 'Mentor', 'miguel@hotmail.com', '9828282828', '189020356', 'Ingenieria en Sistemas Computacionales', '5', 'LAMA-5', '94.07'),
 (9, 'Juan Reyes', 'juan', 'juan', 'Mentor', 'ivettita_96@live.com.mx', '9821247391', '150204020', 'Ingenieria en Sistemas Computacionales', '5', 'ISMA-9', '85'),
-(10, 'Juan Carlos Rivera Tapia', 'JCarlos', 'isc20', 'Jefe', 'divisionisc@itsescarcega.edu.mx', '', '', 'Ingenieria en Sistemas Computacionales', '', '', '');
+(10, 'Juan Carlos Rivera Tapia', 'JCarlos', 'isc20', 'Jefe', 'divisionisc@itsescarcega.edu.mx', '', '', 'Ingenieria en Sistemas Computacionales', '', '', ''),
+(11, 'Pedro Tinajero', 'Pedrito', '2222', 'Mentor', 'pedrito@hotmail.com', '9828282828', '142986522', 'Ingenieria en Sistemas Computacionales', '5', 'ISMA-5', '80');
 
 --
 -- Índices para tablas volcadas
@@ -158,8 +151,7 @@ INSERT INTO `usuarios_mts` (`id_user`, `nombre`, `username`, `password`, `tipo_u
 --
 ALTER TABLE `asesorias_mts`
   ADD PRIMARY KEY (`asesorias_id`),
-  ADD KEY `nu_solicitud` (`nu_solicitud`),
-  ADD KEY `nu_mentor` (`nu_mentor`);
+  ADD KEY `nu_solicitud` (`nu_solicitud`);
 
 --
 -- Indices de la tabla `materias_user_mts`
@@ -179,7 +171,8 @@ ALTER TABLE `seguimientos_mts`
 --
 ALTER TABLE `solicitudes_mts`
   ADD PRIMARY KEY (`id_solicitudes`),
-  ADD KEY `nu_mentorado` (`nu_mentorado`);
+  ADD KEY `nu_mentorado` (`nu_mentorado`),
+  ADD KEY `solicitudes_mts_ibfk_2` (`nu_mentor`);
 
 --
 -- Indices de la tabla `usuarios_mts`
@@ -195,7 +188,7 @@ ALTER TABLE `usuarios_mts`
 -- AUTO_INCREMENT de la tabla `asesorias_mts`
 --
 ALTER TABLE `asesorias_mts`
-  MODIFY `asesorias_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `asesorias_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `materias_user_mts`
@@ -213,13 +206,13 @@ ALTER TABLE `seguimientos_mts`
 -- AUTO_INCREMENT de la tabla `solicitudes_mts`
 --
 ALTER TABLE `solicitudes_mts`
-  MODIFY `id_solicitudes` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_solicitudes` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios_mts`
 --
 ALTER TABLE `usuarios_mts`
-  MODIFY `id_user` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_user` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
@@ -229,8 +222,7 @@ ALTER TABLE `usuarios_mts`
 -- Filtros para la tabla `asesorias_mts`
 --
 ALTER TABLE `asesorias_mts`
-  ADD CONSTRAINT `asesorias_mts_ibfk_1` FOREIGN KEY (`nu_solicitud`) REFERENCES `solicitudes_mts` (`id_solicitudes`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `asesorias_mts_ibfk_2` FOREIGN KEY (`nu_mentor`) REFERENCES `usuarios_mts` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `asesorias_mts_ibfk_1` FOREIGN KEY (`nu_solicitud`) REFERENCES `solicitudes_mts` (`id_solicitudes`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `materias_user_mts`
@@ -242,7 +234,8 @@ ALTER TABLE `materias_user_mts`
 -- Filtros para la tabla `solicitudes_mts`
 --
 ALTER TABLE `solicitudes_mts`
-  ADD CONSTRAINT `solicitudes_mts_ibfk_1` FOREIGN KEY (`nu_mentorado`) REFERENCES `usuarios_mts` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `solicitudes_mts_ibfk_1` FOREIGN KEY (`nu_mentorado`) REFERENCES `usuarios_mts` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `solicitudes_mts_ibfk_2` FOREIGN KEY (`nu_mentor`) REFERENCES `usuarios_mts` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
