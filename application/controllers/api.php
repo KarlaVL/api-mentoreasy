@@ -93,15 +93,16 @@ class Api extends REST_Controller {
         }
     }
 
-    public function asignarmentor_post()
+    public function asignarmentor_put($id)
 
     {
         header("Access-Control-Allow-Origin: *");
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
         
         $input = $this->input->post();
-        $this->db->insert('solicitudes_mts', $input);
-     
+        $this->db->set($input);
+        $this->db->update('solicitudes_mts', $input, array('id_solicitudes'=>$id));
+		
         $this->response(['Mentor asignado'], REST_Controller::HTTP_OK);
     }
 
