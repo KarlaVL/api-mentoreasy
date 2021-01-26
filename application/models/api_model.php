@@ -92,6 +92,20 @@ class Api_model extends CI_Model {
             }
         }
 
+        public function mentor($id) {
         
+            if(!is_null($id)){
+            $this->db->select('s.id_solicitudes, u.nombre, s.situacion, s.asignatura, s.tema, s.promedio_inicial, u.grupo, s.nu_mentorado, s.status_envio');
+            $this->db->from('solicitudes_mts as s');
+            $this->db->join('usuarios_mts as u' , 's.nu_mentorado=u.id_user');
+            $this->db->where('s.nu_mentor', $id);
+            $query = $this->db->get();
+            
+                if ($query->num_rows() > 0){
+                return $query->result_array();
+                }   
+ 
+            }
+        }
 
 }

@@ -106,6 +106,52 @@ class Api extends REST_Controller {
         $this->response(['Mentor asignado'], REST_Controller::HTTP_OK);
     }
 
-    
+    public function ingresarasignatura_post()
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+        
+        $input = $this->input->post();
+        $this->db->insert('materias_user_mts',$input);
+     
+        $this->response(['Materia agregada'], REST_Controller::HTTP_OK);
+    }
+
+   public function listaasignatura_get($id){
+        $data = $this->db->get_where("materias_user_mts", ['id_mentor' => $id])->result();
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
+   public function borrar_delete($id){
+        $this->db->delete("materias_user_mts", array('id_materia' => $id));
+        $this->response(['Curso deleted successfully.'], REST_Controller::HTTP_OK);
+    }
+
+    public function editar_put($id)
+
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+        
+        $input = $this->input->post();
+        $this->db->set($input);
+        $this->db->update('materias_user_mts', $input, array('id_materia'=>$id));
+        
+        $this->response(['Mentor asignado'], REST_Controller::HTTP_OK);
+    }
+
+    public function solicitudmentor_get($id)
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+       // urldecode($carrera);
+        $solicitudes = $this->Api_model->mentor($id);
+        
+        if(!is_null($solicitudes)){
+            $this->response($solicitudes, 200);
+        } else {
+            $this->response(array('error' => 'No hay solicitudes'), 404);
+        }
+    }
 
 }
