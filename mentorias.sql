@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-01-2021 a las 05:27:13
+-- Tiempo de generación: 28-01-2021 a las 03:58:26
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -31,7 +31,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `asesorias_mts` (
   `asesorias_id` bigint(20) NOT NULL,
   `nu_solicitud` bigint(20) NOT NULL,
-  `horario` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `horario` varchar(50) DEFAULT NULL,
+  `fecha` date NOT NULL,
   `status_asesoria` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -39,10 +40,18 @@ CREATE TABLE `asesorias_mts` (
 -- Volcado de datos para la tabla `asesorias_mts`
 --
 
-INSERT INTO `asesorias_mts` (`asesorias_id`, `nu_solicitud`, `horario`, `status_asesoria`) VALUES
-(11, 13, '2021-01-22 22:13:37', NULL),
-(12, 12, '2021-01-22 22:13:41', NULL),
-(13, 13, '2021-01-22 22:24:57', NULL);
+INSERT INTO `asesorias_mts` (`asesorias_id`, `nu_solicitud`, `horario`, `fecha`, `status_asesoria`) VALUES
+(11, 13, '2021-01-22 16:13:37', '0000-00-00', NULL),
+(12, 12, '2021-01-22 16:13:41', '0000-00-00', NULL),
+(13, 13, '2021-01-22 16:24:57', '0000-00-00', NULL),
+(14, 12, '9:00 a.m.', '2021-01-28', NULL),
+(15, 12, '10:00', '2021-01-29', 0),
+(16, 12, '10:00', '2021-01-29', 0),
+(17, 12, '10:00', '2021-01-29', 0),
+(18, 12, '9:00', '2021-01-28', 0),
+(19, 12, '9:00', '2021-01-28', 0),
+(20, 12, '0', '2021-01-29', 0),
+(21, 12, '0', '2021-01-13', 0);
 
 -- --------------------------------------------------------
 
@@ -103,7 +112,7 @@ CREATE TABLE `solicitudes_mts` (
 --
 
 INSERT INTO `solicitudes_mts` (`id_solicitudes`, `situacion`, `tipo`, `asignatura`, `tema`, `promedio_inicial`, `nu_mentorado`, `status_envio`, `nu_mentor`) VALUES
-(12, 'problema', 'academica', 'Bases culinarias', 'hacer merengue', '70.00', 7, '1', 11),
+(12, 'problema', 'academica', 'Bases culinarias', 'hacer merengue', '70.00', 7, '2', 11),
 (13, 'problema', 'academica', 'Inteligencia artificial', 'visión artificial', '70.00', 7, '1', 9);
 
 -- --------------------------------------------------------
@@ -190,7 +199,7 @@ ALTER TABLE `usuarios_mts`
 -- AUTO_INCREMENT de la tabla `asesorias_mts`
 --
 ALTER TABLE `asesorias_mts`
-  MODIFY `asesorias_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `asesorias_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `materias_user_mts`

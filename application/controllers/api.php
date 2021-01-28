@@ -150,8 +150,37 @@ class Api extends REST_Controller {
         if(!is_null($solicitudes)){
             $this->response($solicitudes, 200);
         } else {
-            $this->response(array('error' => 'No hay solicitudes'), 404);
+            $this->response(array('error' => 'No hay solicitudes'), REST_Controller::HTTP_OK);
         }
+    }
+
+    public function rechazarsolicitud_put($id)
+
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+        
+        $input = $this->input->post();
+        $this->db->set($input);
+        $this->db->update('solicitudes_mts', $input, array('id_solicitudes'=>$id));
+        
+        $this->response(['Rechazado'], REST_Controller::HTTP_OK);
+    }
+
+    public function aceptarmentoria_post()
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+        
+        $input = $this->input->post();
+        $id = $this->input->post('nu_solicitud');
+        $this->db->insert('asesorias_mts',$input);
+
+        $data = array ( 'status_envio'=>'2');
+        $this->db->set('status_envio', '2', FALSE);
+        $this->db->update('solicitudes_mts', $data, array('id_solicitudes'=> $id));
+     
+        $this->response(['Asesoria aceptada'], REST_Controller::HTTP_OK);
     }
 
 }
