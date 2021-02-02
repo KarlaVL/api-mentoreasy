@@ -109,4 +109,59 @@ class Api_model extends CI_Model {
             }
         }
 
+        public function mentorasesorias($id) {
+        
+            if(!is_null($id)){
+            $this->db->select('a.asesorias_id, u.nombre, u.grupo, s.asignatura, s.tema, a.horario, a.fecha');
+            $this->db->from('asesorias_mts as a');
+            $this->db->join('solicitudes_mts as s' , 'a.nu_solicitud= s.id_solicitudes');
+            $this->db->join('usuarios_mts as u' , 's.nu_mentorado= u.id_user');
+            $this->db->where('a.status_asesoria', "0");
+            $this->db->where('s.nu_mentor', $id);
+            $query = $this->db->get();
+            
+                if ($query->num_rows() > 0){
+                return $query->result_array();
+                }   
+ 
+            }
+        }
+
+        public function mentoradoasesorias($id) {
+        
+            if(!is_null($id)){
+            $this->db->select('u.nombre, s.asignatura, s.tema, a.horario, a.fecha');
+            $this->db->from('asesorias_mts as a');
+            $this->db->join('solicitudes_mts as s' , 'a.nu_solicitud= s.id_solicitudes');
+            $this->db->join('usuarios_mts as u' , 's.nu_mentor= u.id_user');
+            $this->db->where('a.status_asesoria', "0");
+            $this->db->where('s.nu_mentorado', $id);
+            $query = $this->db->get();
+            
+                if ($query->num_rows() > 0){
+                return $query->result_array();
+                }   
+ 
+            }
+        }
+
+        public function mentoradoseguimiento($id) {
+        
+            if(!is_null($id)){
+            $this->db->select('ss.seguimiento_id, u.nombre, s.asignatura, s.tema');
+            $this->db->from('seguimientos_mts as ss');
+            $this->db->join('asesorias_mts as a' , 'ss.nu_asesoria= a.asesorias_id');
+            $this->db->join('solicitudes_mts as s' , 'a.nu_solicitud= s.id_solicitudes');
+            $this->db->join('usuarios_mts as u' , 's.nu_mentor= u.id_user');
+            $this->db->where('ss.status_seguimiento', "0");
+            $this->db->where('s.nu_mentorado', $id);
+            $query = $this->db->get();
+            
+                if ($query->num_rows() > 0){
+                return $query->result_array();
+                }   
+ 
+            }
+        }
+
 }

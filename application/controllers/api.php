@@ -150,7 +150,7 @@ class Api extends REST_Controller {
         if(!is_null($solicitudes)){
             $this->response($solicitudes, 200);
         } else {
-            $this->response(array('error' => 'No hay solicitudes'), REST_Controller::HTTP_OK);
+            $this->response(array('error' => 'No hay solicitudes'), 404);
         }
     }
 
@@ -181,6 +181,80 @@ class Api extends REST_Controller {
         $this->db->update('solicitudes_mts', $data, array('id_solicitudes'=> $id));
      
         $this->response(['Asesoria aceptada'], REST_Controller::HTTP_OK);
+    }
+
+    public function mentorasesorias_get($id)
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+
+        $solicitudes = $this->Api_model->mentorasesorias($id);
+        
+        if(!is_null($solicitudes)){
+            $this->response($solicitudes, 200);
+        } else {
+            $this->response(array('error' => 'No hay solicitudes'), 404);
+        }
+    }
+
+    public function terminaraseasoria_put($id)
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+
+        
+        $data = array ( 'status_asesoria'=>'1');
+        $this->db->set('status_asesoria', '1', FALSE);
+        $this->db->update('asesorias_mts', $data, array('asesorias_id'=>$id));
+
+            $valid = array ('nu_asesoria' => $id,
+                            'status_seguimiento' => "0");
+
+        $this->db->insert('seguimientos_mts', $valid);
+
+        $this->response(['Asesoria aceptada'], REST_Controller::HTTP_OK);
+    }
+
+    public function mentoradoasesorias_get($id)
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+
+        $solicitudes = $this->Api_model->mentoradoasesorias($id);
+        
+        if(!is_null($solicitudes)){
+            $this->response($solicitudes, 200);
+        } else {
+            $this->response(array('error' => 'No hay solicitudes'), 404);
+        }
+    }
+
+    public function mentoradoseguimiento_get($id)
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+
+        $solicitudes = $this->Api_model->mentoradoseguimiento($id);
+        
+        if(!is_null($solicitudes)){
+            $this->response($solicitudes, 200);
+        } else {
+
+            $this->response(array('error' => 'No hay solicitudes'), 400);
+        }
+    }
+
+   public function seguimientopromedio_put($id)
+
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+        
+        $input = $this->input->post();
+        $this->db->set($input);
+        $this->db->update('seguimientos_mts', $input, array('seguimiento_id'=>$id));
+        
+        $this->response(['Rechazado'], REST_Controller::HTTP_OK);
     }
 
 }

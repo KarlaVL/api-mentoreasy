@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-01-2021 a las 03:58:26
+-- Tiempo de generación: 02-02-2021 a las 20:25:17
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -41,17 +41,7 @@ CREATE TABLE `asesorias_mts` (
 --
 
 INSERT INTO `asesorias_mts` (`asesorias_id`, `nu_solicitud`, `horario`, `fecha`, `status_asesoria`) VALUES
-(11, 13, '2021-01-22 16:13:37', '0000-00-00', NULL),
-(12, 12, '2021-01-22 16:13:41', '0000-00-00', NULL),
-(13, 13, '2021-01-22 16:24:57', '0000-00-00', NULL),
-(14, 12, '9:00 a.m.', '2021-01-28', NULL),
-(15, 12, '10:00', '2021-01-29', 0),
-(16, 12, '10:00', '2021-01-29', 0),
-(17, 12, '10:00', '2021-01-29', 0),
-(18, 12, '9:00', '2021-01-28', 0),
-(19, 12, '9:00', '2021-01-28', 0),
-(20, 12, '0', '2021-01-29', 0),
-(21, 12, '0', '2021-01-13', 0);
+(23, 12, '9:00', '2021-02-01', 1);
 
 -- --------------------------------------------------------
 
@@ -83,11 +73,18 @@ INSERT INTO `materias_user_mts` (`id_materia`, `asignatura`, `id_mentor`, `prome
 
 CREATE TABLE `seguimientos_mts` (
   `seguimiento_id` bigint(20) NOT NULL,
-  `promediofinal` varchar(50) NOT NULL,
-  `retroalimentacion` varchar(255) NOT NULL,
-  `nu_asesoria` bigint(20) NOT NULL,
-  `status_seguimiento` tinyint(4) NOT NULL
+  `promediofinal` varchar(50) DEFAULT NULL,
+  `retroalimentacion` varchar(255) DEFAULT NULL,
+  `nu_asesoria` bigint(20) DEFAULT NULL,
+  `status_seguimiento` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `seguimientos_mts`
+--
+
+INSERT INTO `seguimientos_mts` (`seguimiento_id`, `promediofinal`, `retroalimentacion`, `nu_asesoria`, `status_seguimiento`) VALUES
+(2, '99', NULL, 23, 1);
 
 -- --------------------------------------------------------
 
@@ -113,7 +110,9 @@ CREATE TABLE `solicitudes_mts` (
 
 INSERT INTO `solicitudes_mts` (`id_solicitudes`, `situacion`, `tipo`, `asignatura`, `tema`, `promedio_inicial`, `nu_mentorado`, `status_envio`, `nu_mentor`) VALUES
 (12, 'problema', 'academica', 'Bases culinarias', 'hacer merengue', '70.00', 7, '2', 11),
-(13, 'problema', 'academica', 'Inteligencia artificial', 'visión artificial', '70.00', 7, '1', 9);
+(13, 'problema', 'academica', 'Inteligencia artificial', 'visión artificial', '70.00', 7, '0', NULL),
+(14, 'Matrices en JAVA', 'academica', 'Inteligencia artificial', 'LPB', '85', 7, '0', NULL),
+(15, 'Gestor de base de datos', 'academica', 'Inteligencia artificial', 'PDO', '70', 7, '0', NULL);
 
 -- --------------------------------------------------------
 
@@ -175,7 +174,8 @@ ALTER TABLE `materias_user_mts`
 -- Indices de la tabla `seguimientos_mts`
 --
 ALTER TABLE `seguimientos_mts`
-  ADD PRIMARY KEY (`seguimiento_id`);
+  ADD PRIMARY KEY (`seguimiento_id`),
+  ADD KEY `nu_asesoria` (`nu_asesoria`);
 
 --
 -- Indices de la tabla `solicitudes_mts`
@@ -199,7 +199,7 @@ ALTER TABLE `usuarios_mts`
 -- AUTO_INCREMENT de la tabla `asesorias_mts`
 --
 ALTER TABLE `asesorias_mts`
-  MODIFY `asesorias_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `asesorias_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `materias_user_mts`
@@ -211,13 +211,13 @@ ALTER TABLE `materias_user_mts`
 -- AUTO_INCREMENT de la tabla `seguimientos_mts`
 --
 ALTER TABLE `seguimientos_mts`
-  MODIFY `seguimiento_id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `seguimiento_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `solicitudes_mts`
 --
 ALTER TABLE `solicitudes_mts`
-  MODIFY `id_solicitudes` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_solicitudes` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios_mts`
@@ -240,6 +240,12 @@ ALTER TABLE `asesorias_mts`
 --
 ALTER TABLE `materias_user_mts`
   ADD CONSTRAINT `materias_user_mts_ibfk_1` FOREIGN KEY (`id_mentor`) REFERENCES `usuarios_mts` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `seguimientos_mts`
+--
+ALTER TABLE `seguimientos_mts`
+  ADD CONSTRAINT `seguimientos_mts_ibfk_1` FOREIGN KEY (`nu_asesoria`) REFERENCES `asesorias_mts` (`asesorias_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `solicitudes_mts`
