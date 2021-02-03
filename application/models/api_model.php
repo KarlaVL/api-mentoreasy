@@ -164,4 +164,23 @@ class Api_model extends CI_Model {
             }
         }
 
+        public function jefeseguimiento($carrera) {
+        
+            if(!is_null($carrera)){
+            $this->db->select('ss.seguimiento_id, u.nombre, s.asignatura, s.promedio_inicial, ss.promediofinal, ss.retroalimentacion');
+            $this->db->from('seguimientos_mts as ss');
+            $this->db->join('asesorias_mts as a' , 'ss.nu_asesoria= a.asesorias_id');
+            $this->db->join('solicitudes_mts as s' , 'a.nu_solicitud= s.id_solicitudes');
+            $this->db->join('usuarios_mts as u' , 's.nu_mentorado= u.id_user');
+            $this->db->where('ss.status_seguimiento', "1");
+            $this->db->where('u.carrera', $carrera);
+            $query = $this->db->get();
+            
+                if ($query->num_rows() > 0){
+                return $query->result_array();
+                }   
+ 
+            }
+        }
+
 }

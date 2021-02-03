@@ -257,4 +257,31 @@ class Api extends REST_Controller {
         $this->response(['Rechazado'], REST_Controller::HTTP_OK);
     }
 
+    public function jefeseguimiento_get($carrera)
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+
+        $solicitudes = $this->Api_model->jefeseguimiento(urldecode($carrera));
+        
+        if(!is_null($solicitudes)){
+            $this->response($solicitudes, 200);
+        } else {
+            $this->response(array('error' => 'No hay solicitudes'), 404);
+        }
+    }
+
+    public function jeferetroalimentacion_put($id)
+
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+        
+        $input = $this->input->post();
+        $this->db->set($input);
+        $this->db->update('seguimientos_mts', $input, array('seguimiento_id'=>$id));
+        
+        $this->response(['Rechazado'], REST_Controller::HTTP_OK);
+    }
+
 }

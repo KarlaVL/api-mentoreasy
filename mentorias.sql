@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-02-2021 a las 20:25:17
+-- Tiempo de generación: 03-02-2021 a las 06:48:12
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -62,8 +62,7 @@ CREATE TABLE `materias_user_mts` (
 
 INSERT INTO `materias_user_mts` (`id_materia`, `asignatura`, `id_mentor`, `promedio_mentor`) VALUES
 (1, 'Bases culinarias', 11, '94.00'),
-(2, 'Inteligencia artificial', 9, '85'),
-(3, 'Base de datos', 11, '98.00');
+(2, 'Inteligencia artificial', 9, '85');
 
 -- --------------------------------------------------------
 
@@ -84,7 +83,7 @@ CREATE TABLE `seguimientos_mts` (
 --
 
 INSERT INTO `seguimientos_mts` (`seguimiento_id`, `promediofinal`, `retroalimentacion`, `nu_asesoria`, `status_seguimiento`) VALUES
-(2, '99', NULL, 23, 1);
+(2, '99', 'Si se puedo', 23, 1);
 
 -- --------------------------------------------------------
 
@@ -217,7 +216,7 @@ ALTER TABLE `seguimientos_mts`
 -- AUTO_INCREMENT de la tabla `solicitudes_mts`
 --
 ALTER TABLE `solicitudes_mts`
-  MODIFY `id_solicitudes` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_solicitudes` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios_mts`
